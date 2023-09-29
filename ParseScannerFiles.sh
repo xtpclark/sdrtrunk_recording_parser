@@ -32,7 +32,7 @@ test_files() {
 
 if [[ "1" == ${DEBUG} ]]; then
 echo "*******************Using DEBUG Config!****************"
-TEST_FULLFILE="../${MP3DIR_SRC}/20230927_001335Norfolk_OrfNorfolk_TRAFFIC__TO_611_FROM_16043.mp3"
+TEST_FULLFILE="../${MP3DIR_SRC}/20230927_001335PossumCreek_PossumCreek_TRAFFIC__TO_611_FROM_16043.mp3"
 TEST_FULLFILE_COUNT=1
 else
 
