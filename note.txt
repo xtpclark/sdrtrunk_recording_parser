@@ -1,0 +1,3 @@
+convert yyyymmdd_HHmmssCounty_System in sql...
+
+to_timestamp(left(ext_filename::text,15),'YYYYMMDD HH24MISS')::timestamp 
