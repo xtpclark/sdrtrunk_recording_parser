@@ -1,0 +1,72 @@
+14:33:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:33:01 psf >> echo Count for Find: 10
+14:33:01 psf >> echo Setup the top of the SQL file...
+14:33:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:33:02 psf >> echo Job Num 81 Complete.
+14:33:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_81.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_81.sh.
+14:33:02 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_81.sh Command complete
+14:33:02 psf >> Exiting PSF
+14:34:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:34:01 psf >> echo Count for Find: 3
+14:34:01 psf >> echo Setup the top of the SQL file...
+14:34:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:34:01 psf >> echo Job Num 82 Complete.
+14:34:01 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_82.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_82.sh.
+14:34:01 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_82.sh Command complete
+14:34:01 psf >> Exiting PSF
+14:35:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:35:02 psf >> echo Count for Find: 6
+14:35:02 psf >> echo Setup the top of the SQL file...
+14:35:02 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:35:02 psf >> echo Job Num 83 Complete.
+14:35:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_83.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_83.sh.
+14:35:02 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_83.sh Command complete
+14:35:02 psf >> Exiting PSF
+14:36:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:36:01 psf >> echo Count for Find: 9
+14:36:01 psf >> echo Setup the top of the SQL file...
+14:36:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:36:01 psf >> echo Job Num 84 Complete.
+14:36:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_84.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_84.sh.
+14:36:02 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_84.sh Command complete
+14:36:02 psf >> Exiting PSF
+14:37:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:37:01 psf >> echo Count for Find: 15
+14:37:01 psf >> echo Setup the top of the SQL file...
+14:37:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:37:01 psf >> echo Job Num 85 Complete.
+14:37:01 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_85.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_85.sh.
+14:37:01 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_85.sh Command complete
+14:37:01 psf >> Exiting PSF
+14:38:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:38:02 psf >> echo Count for Find: 8
+14:38:02 psf >> echo Setup the top of the SQL file...
+14:38:02 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:38:02 psf >> echo Job Num 86 Complete.
+14:38:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_86.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_86.sh.
+14:38:02 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_86.sh Command complete
+14:38:02 psf >> Exiting PSF
+14:40:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:40:01 psf >> echo Count for Find: 20
+14:40:01 psf >> echo Setup the top of the SQL file...
+14:40:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:40:02 psf >> echo Job Num 87 Complete.
+14:40:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_87.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_87.sh.
+14:40:02 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_87.sh Command complete
+14:40:02 psf >> Exiting PSF
+14:50:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+14:50:01 psf >> echo Count for Find: 140
+14:50:01 psf >> echo Setup the top of the SQL file...
+14:50:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+14:50:03 psf >> echo Job Num 88 Complete.
+14:50:03 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_88.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_88.sh.
+14:50:04 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_88.sh Command complete
+14:50:04 psf >> Exiting PSF
+15:00:01 psf >> Logging initialized. Current session will be logged to /home/pclark/sdrtrunk_recordings/script/psf/logs/psf-20231004.log
+15:00:01 psf >> echo Count for Find: 106
+15:00:01 psf >> echo Setup the top of the SQL file...
+15:00:01 psf >> echo Writing parsed sql inserts to /home/pclark/sdrtrunk_recordings/script/psf/temp_sql/parsed-mp3-data-20231004.sql
+15:00:02 psf >> echo Job Num 89 Complete.
+15:00:02 psf >> echo Query /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvqry_89.sh complete, generated /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_89.sh.
+15:00:03 psf >> echo Ran /home/pclark/sdrtrunk_recordings/script/psf/temp_scripts/mvscript_89.sh Command complete
+15:00:03 psf >> Exiting PSF
