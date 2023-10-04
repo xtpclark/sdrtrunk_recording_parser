@@ -1,0 +1,5 @@
+Cmnd_Alias    PGCMDS = /usr/bin/sudo, /usr/bin/psql, /usr/bin/pg_dump, /usr/bin/pg_dumpall, /usr/bin/createdb, /usr/bin/pg_restore
+Runas_Alias   PG = postgres
+User_Alias    PGGROUP = postgres
+PGGROUP       ALL=(PG) ALL
+PGGROUP       ALL=NOPASSWD: PGCMDS
