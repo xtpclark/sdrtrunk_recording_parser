@@ -1,0 +1,659 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.2 (Ubuntu 15.2-1.pgdg18.04+1)
+-- Dumped by pg_dump version 15.2 (Ubuntu 15.2-1.pgdg18.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: fetchpreftext(text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.fetchpreftext(pprefname text) RETURNS text
+    LANGUAGE sql STABLE
+    AS $$
+  SELECT pref_value FROM pref WHERE pref_name = pprefName LIMIT 1;
+$$;
+
+
+ALTER FUNCTION public.fetchpreftext(pprefname text) OWNER TO postgres;
+
+--
+-- Name: psqlout(text, integer, text, text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    EXECUTE format('COPY (SELECT 1) TO PROGRAM ''sudo psql -At -h %s -p %s -U %s %s -c "%s" > %s'' ', pPGHost, pPGPort, pPGUser, pPGDBName, pQuery, pOutFile);
+ --   EXECUTE format('COPY (SELECT 1) TO PROGRAM ''psql -At -h %s -p %s -U %s -d %s -c "%s" > %s'' ', pPGHost, pPGPort, pPGUser, pPGDBName, pQuery, pOutFile);
+    RETURN pOutFile;
+END;
+$$;
+
+
+ALTER FUNCTION public.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) OWNER TO postgres;
+
+--
+-- Name: setpref(text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.setpref(pprefname text, pprefvalue text) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+  INSERT INTO pref (pref_name, pref_value)
+  VALUES (pprefName, pprefValue)
+  ON CONFLICT (pref_name)
+  DO UPDATE SET pref_value=pprefValue;
+
+  RETURN TRUE;
+
+END;
+$$;
+
+
+ALTER FUNCTION public.setpref(pprefname text, pprefvalue text) OWNER TO postgres;
+
+--
+-- Name: setpref(text, text, text); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.setpref(pprefname text, pprefvalue text, pprefdesc text) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+  INSERT INTO pref (pref_name, pref_value, pref_desc)
+  VALUES (pprefName, pprefValue, pprefDesc)
+  ON CONFLICT (pref_name)
+  DO UPDATE SET pref_value=pprefValue, pref_desc=pprefDesc;
+
+  RETURN TRUE;
+
+END;
+$$;
+
+
+ALTER FUNCTION public.setpref(pprefname text, pprefvalue text, pprefdesc text) OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: extdat; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.extdat (
+    ext_filename text,
+    ext_talkgroup integer,
+    ext_radio text,
+    ext_time text,
+    ext_date date,
+    ext_sys text,
+    ext_sys1 text,
+    ext_sys2 text,
+    ext_id integer NOT NULL,
+    ext_created timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    ext_job integer
+);
+
+
+ALTER TABLE public.extdat OWNER TO postgres;
+
+--
+-- Name: extdat_ext_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.extdat_ext_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.extdat_ext_id_seq OWNER TO postgres;
+
+--
+-- Name: extdat_ext_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.extdat_ext_id_seq OWNED BY public.extdat.ext_id;
+
+
+--
+-- Name: extdat_job_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.extdat_job_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.extdat_job_num_seq OWNER TO postgres;
+
+--
+-- Name: pref; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pref (
+    pref_id integer DEFAULT nextval(('pref_pref_id_seq'::text)::regclass) NOT NULL,
+    pref_name text NOT NULL,
+    pref_value text,
+    pref_desc text,
+    CONSTRAINT pref_pref_name_check CHECK ((pref_name <> ''::text))
+);
+
+
+ALTER TABLE public.pref OWNER TO postgres;
+
+--
+-- Name: pref_pref_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pref_pref_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+
+ALTER TABLE public.pref_pref_id_seq OWNER TO postgres;
+
+--
+-- Name: trs_sites; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.trs_sites (
+    rfss text,
+    site_dec text,
+    site_hex text,
+    site_nac text,
+    description text,
+    county_name text,
+    lat text,
+    lon text,
+    range text,
+    f1 text,
+    f2 text,
+    f3 text,
+    f4 text,
+    f5 text,
+    f6 text,
+    f7 text,
+    f8 text,
+    f9 text,
+    f10 text,
+    f11 text,
+    f12 text,
+    f13 text,
+    f14 text,
+    f15 text,
+    f16 text,
+    f17 text,
+    f18 text,
+    f19 text,
+    f20 text,
+    f21 text,
+    f22 text,
+    f23 text,
+    f24 text,
+    f25 text,
+    f26 text,
+    f27 text,
+    f28 text,
+    f29 text,
+    f30 text,
+    f31 text,
+    f32 text,
+    f33 text,
+    f34 text,
+    f35 text,
+    f36 text,
+    f37 text,
+    f38 text,
+    f39 text,
+    f40 text,
+    f41 text,
+    f42 text,
+    f43 text,
+    f44 text,
+    f45 text
+);
+
+
+ALTER TABLE public.trs_sites OWNER TO postgres;
+
+--
+-- Name: trs_tg; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.trs_tg (
+    tg_decimal integer,
+    tg_hex text,
+    tg_alpha_tg text,
+    tg_mode text,
+    tg_desc text,
+    tg_tag text,
+    tg_category text
+);
+
+
+ALTER TABLE public.trs_tg OWNER TO postgres;
+
+--
+-- Name: vw_all; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.vw_all AS
+ SELECT extdat.ext_id,
+    (((((((('file '''::text || public.fetchpreftext('archive_path'::text)) || '/'::text) || "left"(extdat.ext_filename, 8)) || '/'::text) || trs_tg.tg_decimal) || '/'::text) || extdat.ext_filename) || ''''::text) AS ffurl,
+    ((((((public.fetchpreftext('archive_path'::text) || '/'::text) || "left"(extdat.ext_filename, 8)) || '/'::text) || trs_tg.tg_decimal) || '/'::text) || extdat.ext_filename) AS fpath,
+    extdat.ext_filename AS filename,
+    extdat.ext_radio AS radio,
+    extdat.ext_time AS filets,
+    extdat.ext_sys AS county,
+    extdat.ext_sys1 AS sys1,
+    extdat.ext_sys2 AS sys2,
+    extdat.ext_job AS jobnum,
+    trs_tg.tg_decimal AS talkgroup,
+    trs_tg.tg_hex AS hex,
+    trs_tg.tg_alpha_tg AS atag,
+    trs_tg.tg_mode AS mode,
+    trs_tg.tg_desc AS descrip,
+    trs_tg.tg_tag AS tag,
+    trs_tg.tg_category AS category,
+    ("left"(extdat.ext_filename, 15))::timestamp with time zone AS ts_tz,
+    ("left"(extdat.ext_filename, 8))::date AS dt,
+    (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'HH24:MI:SS'::text))::time without time zone AS hms,
+    (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'HH24'::text))::integer AS hod,
+    (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'MI'::text))::integer AS moh,
+    (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'SS'::text))::integer AS soh,
+    (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'SSSS'::text))::integer AS sod,
+    ((to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'SSSS'::text))::integer / 60) AS mod,
+    to_char((("left"(extdat.ext_filename, 15))::date)::timestamp with time zone, 'day'::text) AS day,
+    to_char((("left"(extdat.ext_filename, 15))::date)::timestamp with time zone, 'month'::text) AS mon,
+    (EXTRACT(day FROM ("left"(extdat.ext_filename, 15))::timestamp without time zone))::integer AS dom,
+    date_part('YEAR'::text, (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'YYYY-MM-DD HH24:MI:SS'::text))::timestamp with time zone) AS yr,
+    date_part('month'::text, (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'YYYY-MM-DD HH24:MI:SS'::text))::timestamp with time zone) AS mo,
+    date_part('Dow'::text, (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'YYYY-MM-DD HH24:MI:SS'::text))::timestamp with time zone) AS dow,
+    date_part('DOY'::text, (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'YYYY-MM-DD HH24:MI:SS'::text))::timestamp with time zone) AS doy,
+    date_part('WEEK'::text, (to_char(("left"(extdat.ext_filename, 15))::timestamp without time zone, 'YYYY-MM-DD HH24:MI:SS'::text))::timestamp with time zone) AS wno
+   FROM (public.extdat
+     JOIN public.trs_tg ON ((extdat.ext_talkgroup = trs_tg.tg_decimal)));
+
+
+ALTER TABLE public.vw_all OWNER TO postgres;
+
+--
+-- Name: vw_call_stats; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.vw_call_stats AS
+ SELECT extdat.ext_date AS recorded_date,
+    extdat.ext_talkgroup AS talkgroup,
+    trs_tg.tg_alpha_tg,
+    trs_tg.tg_desc,
+    trs_tg.tg_tag,
+    trs_tg.tg_category,
+    count(*) AS calls
+   FROM (public.extdat
+     JOIN public.trs_tg ON ((extdat.ext_talkgroup = trs_tg.tg_decimal)))
+  GROUP BY extdat.ext_date, extdat.ext_talkgroup, trs_tg.tg_alpha_tg, trs_tg.tg_desc, trs_tg.tg_tag, trs_tg.tg_category
+  ORDER BY extdat.ext_date;
+
+
+ALTER TABLE public.vw_call_stats OWNER TO postgres;
+
+--
+-- Name: vw_stats_current; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.vw_stats_current AS
+ SELECT vw_call_stats.recorded_date,
+    vw_call_stats.talkgroup,
+    vw_call_stats.tg_alpha_tg,
+    vw_call_stats.tg_desc,
+    vw_call_stats.tg_tag,
+    vw_call_stats.tg_category,
+    vw_call_stats.calls
+   FROM public.vw_call_stats
+  WHERE (vw_call_stats.recorded_date = CURRENT_DATE)
+  ORDER BY vw_call_stats.calls;
+
+
+ALTER TABLE public.vw_stats_current OWNER TO postgres;
+
+--
+-- Name: vw_top; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.vw_top AS
+ SELECT vw_call_stats.talkgroup,
+    vw_call_stats.tg_alpha_tg,
+    vw_call_stats.tg_category,
+    sum(vw_call_stats.calls) AS total_calls
+   FROM public.vw_call_stats
+  GROUP BY vw_call_stats.talkgroup, vw_call_stats.tg_alpha_tg, vw_call_stats.tg_category
+  ORDER BY (sum(vw_call_stats.calls)) DESC;
+
+
+ALTER TABLE public.vw_top OWNER TO postgres;
+
+--
+-- Name: vw_yesterday_calls; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.vw_yesterday_calls AS
+ SELECT vw_call_stats.recorded_date,
+    vw_call_stats.talkgroup,
+    vw_call_stats.tg_alpha_tg,
+    vw_call_stats.tg_desc,
+    vw_call_stats.tg_tag,
+    vw_call_stats.tg_category,
+    vw_call_stats.calls
+   FROM public.vw_call_stats
+  WHERE (vw_call_stats.recorded_date = (CURRENT_DATE - 1))
+  ORDER BY vw_call_stats.calls;
+
+
+ALTER TABLE public.vw_yesterday_calls OWNER TO postgres;
+
+--
+-- Name: extdat ext_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.extdat ALTER COLUMN ext_id SET DEFAULT nextval('public.extdat_ext_id_seq'::regclass);
+
+
+--
+-- Data for Name: extdat; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.extdat (ext_filename, ext_talkgroup, ext_radio, ext_time, ext_date, ext_sys, ext_sys1, ext_sys2, ext_id, ext_created, ext_job) FROM stdin;
+20231004_151301Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151301	2023-10-04	Norfolk	Norfolk	NULL	74658	2023-10-04 15:20:02.516879	91
+20231004_151757Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557054.mp3	617	5557054	151757	2023-10-04	Norfolk	Norfolk	NULL	74659	2023-10-04 15:20:02.516879	91
+20231004_151632Norfolk_Norfolk_TRAFFIC__TO_647_FROM_5557155.mp3	647	5557155	151632	2023-10-04	Norfolk	Norfolk	NULL	74660	2023-10-04 15:20:02.516879	91
+20231004_151853Norfolk_Norfolk_TRAFFIC__TO_885_FROM_15268.mp3	885	15268	151853	2023-10-04	Norfolk	Norfolk	NULL	74661	2023-10-04 15:20:02.516879	91
+20231004_151159Norfolk_Norfolk_TRAFFIC__TO_719_FROM_13463.mp3	719	13463	151159	2023-10-04	Norfolk	Norfolk	NULL	74662	2023-10-04 15:20:02.516879	91
+20231004_150945Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556418.mp3	608	5556418	150945	2023-10-04	Norfolk	Norfolk	NULL	74663	2023-10-04 15:20:02.516879	91
+20231004_151313Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556734.mp3	608	5556734	151313	2023-10-04	Norfolk	Norfolk	NULL	74664	2023-10-04 15:20:02.516879	91
+20231004_151647Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557530.mp3	608	5557530	151647	2023-10-04	Norfolk	Norfolk	NULL	74665	2023-10-04 15:20:02.516879	91
+20231004_151128Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151128	2023-10-04	Norfolk	Norfolk	NULL	74666	2023-10-04 15:20:02.516879	91
+20231004_151800Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556118.mp3	608	5556118	151800	2023-10-04	Norfolk	Norfolk	NULL	74667	2023-10-04 15:20:02.516879	91
+20231004_151704Norfolk_Norfolk_TRAFFIC__TO_647_FROM_5555384.mp3	647	5555384	151704	2023-10-04	Norfolk	Norfolk	NULL	74668	2023-10-04 15:20:02.516879	91
+20231004_151821Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557054.mp3	617	5557054	151821	2023-10-04	Norfolk	Norfolk	NULL	74669	2023-10-04 15:20:02.516879	91
+20231004_151819Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151819	2023-10-04	Norfolk	Norfolk	NULL	74670	2023-10-04 15:20:02.516879	91
+20231004_151858Norfolk_Norfolk_TRAFFIC__TO_885_FROM_44509.mp3	885	44509	151858	2023-10-04	Norfolk	Norfolk	NULL	74671	2023-10-04 15:20:02.516879	91
+20231004_151234Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151234	2023-10-04	Norfolk	Norfolk	NULL	74672	2023-10-04 15:20:02.516879	91
+20231004_151750Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556118.mp3	608	5556118	151750	2023-10-04	Norfolk	Norfolk	NULL	74673	2023-10-04 15:20:02.516879	91
+20231004_151824Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556097.mp3	608	5556097	151824	2023-10-04	Norfolk	Norfolk	NULL	74674	2023-10-04 15:20:02.516879	91
+20231004_151706Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557530.mp3	608	5557530	151706	2023-10-04	Norfolk	Norfolk	NULL	74675	2023-10-04 15:20:02.516879	91
+20231004_151130Norfolk_Norfolk_TRAFFIC__TO_719.mp3	719	-1	151130	2023-10-04	Norfolk	Norfolk	NULL	74676	2023-10-04 15:20:02.516879	91
+20231004_151640Norfolk_Norfolk_TRAFFIC__TO_647_FROM_5555384.mp3	647	5555384	151640	2023-10-04	Norfolk	Norfolk	NULL	74677	2023-10-04 15:20:02.516879	91
+20231004_151651Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151651	2023-10-04	Norfolk	Norfolk	NULL	74678	2023-10-04 15:20:02.516879	91
+20231004_151253Norfolk_Norfolk_TRAFFIC__TO_719.mp3	719	-1	151253	2023-10-04	Norfolk	Norfolk	NULL	74679	2023-10-04 15:20:02.516879	91
+20231004_151718Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151718	2023-10-04	Norfolk	Norfolk	NULL	74680	2023-10-04 15:20:02.516879	91
+20231004_150900Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	150900	2023-10-04	Norfolk	Norfolk	NULL	74681	2023-10-04 15:20:02.516879	91
+20231004_151251Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151251	2023-10-04	Norfolk	Norfolk	NULL	74682	2023-10-04 15:20:02.516879	91
+20231004_151731Norfolk_Norfolk_TRAFFIC__TO_612_FROM_16035.mp3	612	16035	151731	2023-10-04	Norfolk	Norfolk	NULL	74683	2023-10-04 15:20:02.516879	91
+20231004_151229Norfolk_Norfolk_TRAFFIC__TO_719_FROM_13463.mp3	719	13463	151229	2023-10-04	Norfolk	Norfolk	NULL	74684	2023-10-04 15:20:02.516879	91
+20231004_151658Norfolk_Norfolk_TRAFFIC__TO_647_FROM_5557155.mp3	647	5557155	151658	2023-10-04	Norfolk	Norfolk	NULL	74685	2023-10-04 15:20:02.516879	91
+20231004_151401Norfolk_Norfolk_TRAFFIC__TO_646_FROM_5557148.mp3	646	5557148	151401	2023-10-04	Norfolk	Norfolk	NULL	74686	2023-10-04 15:20:02.516879	91
+20231004_150908Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556018.mp3	608	5556018	150908	2023-10-04	Norfolk	Norfolk	NULL	74687	2023-10-04 15:20:02.516879	91
+20231004_151605Norfolk_Norfolk_TRAFFIC__TO_647_FROM_5555384.mp3	647	5555384	151605	2023-10-04	Norfolk	Norfolk	NULL	74688	2023-10-04 15:20:02.516879	91
+20231004_151214Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151214	2023-10-04	Norfolk	Norfolk	NULL	74689	2023-10-04 15:20:02.516879	91
+20231004_151831Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151831	2023-10-04	Norfolk	Norfolk	NULL	74690	2023-10-04 15:20:02.516879	91
+20231004_150910Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	150910	2023-10-04	Norfolk	Norfolk	NULL	74691	2023-10-04 15:20:02.516879	91
+20231004_151354Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151354	2023-10-04	Norfolk	Norfolk	NULL	74692	2023-10-04 15:20:02.516879	91
+20231004_151751Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557152.mp3	617	5557152	151751	2023-10-04	Norfolk	Norfolk	NULL	74693	2023-10-04 15:20:02.516879	91
+20231004_151659Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151659	2023-10-04	Norfolk	Norfolk	NULL	74694	2023-10-04 15:20:02.516879	91
+20231004_151720Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557530.mp3	608	5557530	151720	2023-10-04	Norfolk	Norfolk	NULL	74695	2023-10-04 15:20:02.516879	91
+20231004_151138Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151138	2023-10-04	Norfolk	Norfolk	NULL	74696	2023-10-04 15:20:02.516879	91
+20231004_150901Norfolk_Norfolk_TRAFFIC__TO_608.mp3	608	-1	150901	2023-10-04	Norfolk	Norfolk	NULL	74697	2023-10-04 15:20:02.516879	91
+20231004_150934Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556418.mp3	608	5556418	150934	2023-10-04	Norfolk	Norfolk	NULL	74698	2023-10-04 15:20:02.516879	91
+20231004_151806Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556336.mp3	608	5556336	151806	2023-10-04	Norfolk	Norfolk	NULL	74699	2023-10-04 15:20:02.516879	91
+20231004_151402Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151402	2023-10-04	Norfolk	Norfolk	NULL	74700	2023-10-04 15:20:02.516879	91
+20231004_151316Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556018.mp3	608	5556018	151316	2023-10-04	Norfolk	Norfolk	NULL	74701	2023-10-04 15:20:02.516879	91
+20231004_151843Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556097.mp3	608	5556097	151843	2023-10-04	Norfolk	Norfolk	NULL	74702	2023-10-04 15:20:02.516879	91
+20231004_151405Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557840.mp3	608	5557840	151405	2023-10-04	Norfolk	Norfolk	NULL	74703	2023-10-04 15:20:02.516879	91
+20231004_151655Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557530.mp3	608	5557530	151655	2023-10-04	Norfolk	Norfolk	NULL	74704	2023-10-04 15:20:02.516879	91
+20231004_151015Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556734.mp3	608	5556734	151015	2023-10-04	Norfolk	Norfolk	NULL	74705	2023-10-04 15:20:02.516879	91
+20231004_151804Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5556222.mp3	617	5556222	151804	2023-10-04	Norfolk	Norfolk	NULL	74706	2023-10-04 15:20:02.516879	91
+20231004_150938Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	150938	2023-10-04	Norfolk	Norfolk	NULL	74707	2023-10-04 15:20:02.516879	91
+20231004_151712Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151712	2023-10-04	Norfolk	Norfolk	NULL	74708	2023-10-04 15:20:02.516879	91
+20231004_150906Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557152.mp3	617	5557152	150906	2023-10-04	Norfolk	Norfolk	NULL	74709	2023-10-04 15:20:02.516879	91
+20231004_151746Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557054.mp3	617	5557054	151746	2023-10-04	Norfolk	Norfolk	NULL	74710	2023-10-04 15:20:02.516879	91
+20231004_151500Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5556794.mp3	617	5556794	151500	2023-10-04	Norfolk	Norfolk	NULL	74711	2023-10-04 15:20:02.516879	91
+20231004_150902Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5556690.mp3	617	5556690	150902	2023-10-04	Norfolk	Norfolk	NULL	74712	2023-10-04 15:20:02.516879	91
+20231004_151802Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556336.mp3	608	5556336	151802	2023-10-04	Norfolk	Norfolk	NULL	74713	2023-10-04 15:20:02.516879	91
+20231004_151334Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151334	2023-10-04	Norfolk	Norfolk	NULL	74714	2023-10-04 15:20:02.516879	91
+20231004_151837Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557149.mp3	608	5557149	151837	2023-10-04	Norfolk	Norfolk	NULL	74715	2023-10-04 15:20:02.516879	91
+20231004_151747Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556336.mp3	608	5556336	151747	2023-10-04	Norfolk	Norfolk	NULL	74716	2023-10-04 15:20:02.516879	91
+20231004_151849Norfolk_Norfolk_TRAFFIC__TO_885_FROM_44509.mp3	885	44509	151849	2023-10-04	Norfolk	Norfolk	NULL	74717	2023-10-04 15:20:02.516879	91
+20231004_150946Norfolk_Norfolk_TRAFFIC__TO_719.mp3	719	-1	150946	2023-10-04	Norfolk	Norfolk	NULL	74718	2023-10-04 15:20:02.516879	91
+20231004_151043Norfolk_Norfolk_TRAFFIC__TO_648_FROM_5555273.mp3	648	5555273	151043	2023-10-04	Norfolk	Norfolk	NULL	74719	2023-10-04 15:20:02.516879	91
+20231004_151715Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557530.mp3	608	5557530	151715	2023-10-04	Norfolk	Norfolk	NULL	74720	2023-10-04 15:20:02.516879	91
+20231004_151813Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5556222.mp3	617	5556222	151813	2023-10-04	Norfolk	Norfolk	NULL	74721	2023-10-04 15:20:02.516879	91
+20231004_151205Norfolk_Norfolk_TRAFFIC__TO_719_FROM_12976.mp3	719	12976	151205	2023-10-04	Norfolk	Norfolk	NULL	74722	2023-10-04 15:20:02.516879	91
+20231004_151211Norfolk_Norfolk_TRAFFIC__TO_719_FROM_13463.mp3	719	13463	151211	2023-10-04	Norfolk	Norfolk	NULL	74723	2023-10-04 15:20:02.516879	91
+20231004_151756Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556336.mp3	608	5556336	151756	2023-10-04	Norfolk	Norfolk	NULL	74724	2023-10-04 15:20:02.516879	91
+20231004_151809Norfolk_Norfolk_TRAFFIC__TO_617_FROM_5557054.mp3	617	5557054	151809	2023-10-04	Norfolk	Norfolk	NULL	74725	2023-10-04 15:20:02.516879	91
+20231004_151814Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5556097.mp3	608	5556097	151814	2023-10-04	Norfolk	Norfolk	NULL	74726	2023-10-04 15:20:02.516879	91
+20231004_151358Norfolk_Norfolk_TRAFFIC__TO_608_FROM_5557840.mp3	608	5557840	151358	2023-10-04	Norfolk	Norfolk	NULL	74727	2023-10-04 15:20:02.516879	91
+\.
+
+
+--
+-- Data for Name: pref; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pref (pref_id, pref_name, pref_value, pref_desc) FROM stdin;
+1	archive_path	/storage/sdrtrunk_recordings/archive	Path to archived mp3s
+2	current_path	/storage/sdrtrunk_recordings/current	Path that sdrtrunk puts recorded mp3s in.
+8	merged_path	/storage/sdrtrunk_recordings/merged	Path for merged mp3.
+14	sdrpg_dir	/storage/sdrtrunk_recordings/sdrsql/	Directory where postgres puts files
+9	move_qry	SELECT ''mkdir --parents ''||fetchpreftext(''archive_path'')||''/''||to_char(ext_date::date,''YYYYMMDD'')||''/''||ext_talkgroup||''/; mv ''||fetchpreftext(''current_path'')||''/''||ext_filename||E' \\$_' FROM extdat WHERE ext_job=${EXT_JOB_NUM};	Command to move the files into archive.
+\.
+
+
+--
+-- Data for Name: trs_sites; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.trs_sites (rfss, site_dec, site_hex, site_nac, description, county_name, lat, lon, range, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25, f26, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45) FROM stdin;
+1	001	1	461	Simulcast	Norfolk	36.84681	-76.28522	25	854.162500	855.237500	855.487500	855.737500	856.237500	856.637500	856.987500	857.237500	857.512500c	857.987500c	858.237500	858.662500	858.712500	858.987500c	859.237500	859.987500c	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: trs_tg; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.trs_tg (tg_decimal, tg_hex, tg_alpha_tg, tg_mode, tg_desc, tg_tag, tg_category) FROM stdin;
+608	260	NPD 1st Main	D	1st Precinct Dispatch	Law Dispatch	Police
+609	261	NPD 1st Alt	D	1st Precinct Alternate	Law Tac	Police
+610	262	NPD 1st Tac	D	1st Precinct Tactical	Law Tac	Police
+611	263	NPD 2nd Main	D	2nd Precinct Dispatch	Law Dispatch	Police
+612	264	NPD 2nd Alt	D	2nd Precinct Alternate	Law Tac	Police
+613	265	NPD 2nd Tac	D	2nd Precinct Tactical	Law Tac	Police
+614	266	NPD SpEvts	D	Special Events	Law Tac	Police
+615	267	NPD SpEvts Traff	D	Special Events - Traffic	Law Tac	Police
+616	268	NPD 3rd Tac	D	3rd Precinct Tactical	Law Tac	Police
+617	269	NPD Det Main	D	Detective Dispatch	Law Dispatch	Police
+618	26a	NPD Det Alt	D	Detective Alternate	Law Tac	Police
+619	26b	NPD Adm/Tow	D	Admin/Towing	Law Tac	Police
+620	26c	NPD Emergncy	D	Emergency	Law Tac	Police
+621	26d	NPD Restrict	D	Restricted	Law Tac	Police
+622	26e	NPD L	DE	Special Investigations Unit	Law Tac	Police
+623	26f	NPD M	DE	Special Investigations Unit	Law Tac	Police
+624	270	NPD N	DE	Special Investigations Unit	Law Tac	Police
+625	271	NPD MutAid	D	Mutual Aid	Interop	Police
+646	286	NFD Disp	D	Dispatch	Fire Dispatch	Fire/EMS
+647	287	NFD Tac 2	D	Tac 2 (EMS Ops)	EMS-Tac	Fire/EMS
+648	288	NFD Tac 3	D	Tac 3	Fire-Tac	Fire/EMS
+649	289	NFD Tac 4	D	Tac 4	Fire-Tac	Fire/EMS
+650	28a	NFD Tac 5	D	Tac 5	Fire-Tac	Fire/EMS
+651	28b	NFD Tac 6	D	Tac 6 (Mutual Aid-Airport/Interstate)	Fire-Tac	Fire/EMS
+652	28c	NFD Tac 7	D	Tac 7 (Special Events)	Fire-Tac	Fire/EMS
+653	28d	NFD Alerting	D	Alerting	Data	Fire/EMS
+654	28e	NFD Tac 8	D	Tac 8	Fire-Tac	Fire/EMS
+655	28f	NFD Tac 9	D	Tac 9	Fire-Tac	Fire/EMS
+656	290	NFD Tac 10	D	Tac 10	Fire-Tac	Fire/EMS
+657	291	NFD Tac 11	D	Tac 11	Fire-Tac	Fire/EMS
+658	292	NFD CHKD	D	Children's Hospital of the King's Daughters	Hospital	Fire/EMS
+659	293	NFD DePaul	D	DePaul Hospital	Hospital	Fire/EMS
+660	294	NFD Leigh	D	Leigh Memorial Hospital	Hospital	Fire/EMS
+661	295	NFD NorfGen	D	Sentara Norfolk Genaral Hospital	Hospital	Fire/EMS
+677	2a5	Norf WtrEng	D	Water Engineering	Public Works	Services
+678	2a6	Norf WtrDist	D	Water Distribution	Public Works	Services
+679	2a7	Norf WastWtr	D	Waste Water	Public Works	Services
+680	2a8	Norf WtrProd	D	Water Production	Public Works	Services
+697	2b9	Norf FacMnt	D	Facility Maintenance	Public Works	Services
+699	2bb	Norf Garage	D	Garage Road Service	Public Works	Services
+716	2cc	Norf TrafEn1	D	Traffic Engineering Main (Ch. 1)	Public Works	Services
+717	2cd	Norf StrmWtr	D	Storm Water and Street Cleaning	Public Works	Services
+718	2ce	Norf StrBrdg	D	Streets and Bridges	Public Works	Services
+719	2cf	Norf WstMgmt	D	Waste Management	Public Works	Services
+720	2d0	Norf Surveys	D	Director, Engineering, Surveys, Design	Public Works	Services
+721	2d1	Norf TrafEn2	D	Traffic Engineering Workgroup (Ch. 2)	Public Works	Services
+737	20	Norf CodeIns	D	Code Inspectors	Public Works	Services
+738	200	Norf NEAT	D	Neighborhood Environmental Assessment Team	Public Works	Services
+739	2000	Norf Forest	D	Forestry	Public Works	Services
+740	20000	Norf Lifegrd	D	Lifeguards	Public Works	Services
+742	2000000	Norf Parks	D	Parks and Recreation - Sports Events	Public Works	Services
+759	2f7	Norf Rad Mnt	D	Radio Maintenance	Public Works	Services
+760	2f8	Norf IS Comp	D	Information Systems Computer Repair	Public Works	Services
+761	2f9	Norf IS Ntwk	D	Information Systems Network	Public Works	Services
+762	2fa	Norf ParkEnf	D	Parking Enforcement	Public Works	Services
+763	2fb	Norf Health	D	Public Health Department	Public Works	Services
+764	2fc	Norf Vector	D	Vector (mosquito control)	Public Works	Services
+797	31d	Norf SchSec1	D	School-to-School Security/Ops	Schools	Schools
+798	31e	Norf SchSec2	D	School-to-School Security/Ops Secondary	Schools	Schools
+799	31f	Norf SchSpEd	D	Special Needs Transportation	Schools	Schools
+815	32f	NSU PD1	D	Police 1	Law Dispatch	Norfolk State University
+816	330	NSU PD 2	D	Police 2	Law Tac	Norfolk State University
+833	341	NSO CivProc	D	Civil Process	Corrections	Sheriff
+834	342	NSO Jail	D	Jail	Corrections	Sheriff
+835	343	NSO Courts	D	Courts	Corrections	Sheriff
+836	344	NSO ProjLfsv	D	Project Lifesaver	Corrections	Sheriff
+867	363	ODU PD Disp	D	Police Dispatch	Law Dispatch	Old Dominion University
+868	364	ODU PD Tac2	D	Police Tac 2	Law Tac	Old Dominion University
+869	365	ODU PD Tac3	D	Police Football Stadium Ops	Law Tac	Old Dominion University
+885	375	ORF PD1	D	Police 1	Law Dispatch	Norfolk International Airport
+886	376	ORF FD1	D	Fire-Crash Dispatch	Fire Dispatch	Norfolk International Airport
+887	377	ORF PD Tac	D	Police Tac	Law Tac	Norfolk International Airport
+888	378	ORF FD Tac	D	Fire-Crash Tac	Fire-Tac	Norfolk International Airport
+889	379	ORF Tac	D	Tac	Multi-Tac	Norfolk International Airport
+940	3ac	Norf Zoo 1	D	Zoo Operations 1	Public Works	Services
+941	3ad	Norf Zoo 2	D	Zoo Guest Relations 2	Public Works	Services
+942	3ae	Norf Zoo 3	D	Zoo Operations 3	Public Works	Services
+959	3bf	Norf Scope 1	D	Scope Security & Operations 1	Public Works	Services
+960	3c0	Norf Scope 2	D	Scope Operations 2	Public Works	Services
+961	3c1	Norf Scope 3	D	Scope/Chrysler Hall Ops 3	Public Works	Services
+962	3c2	Norf SpEvt	D	Special Events	Public Works	Services
+\.
+
+
+--
+-- Name: extdat_ext_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.extdat_ext_id_seq', 74728, true);
+
+
+--
+-- Name: extdat_job_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.extdat_job_num_seq', 91, true);
+
+
+--
+-- Name: pref_pref_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pref_pref_id_seq', 17, true);
+
+
+--
+-- Name: extdat extdat_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.extdat
+    ADD CONSTRAINT extdat_pkey PRIMARY KEY (ext_id);
+
+
+--
+-- Name: extdat_ext_date_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX extdat_ext_date_idx ON public.extdat USING btree (ext_date);
+
+
+--
+-- Name: extdat_ext_filename_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX extdat_ext_filename_idx ON public.extdat USING btree (ext_filename);
+
+
+--
+-- Name: extdat_ext_talkgroup_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX extdat_ext_talkgroup_idx ON public.extdat USING btree (ext_talkgroup);
+
+
+--
+-- Name: pref_pref_name_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX pref_pref_name_idx ON public.pref USING btree (pref_name);
+
+
+--
+-- Name: trs_tg_tg_alpha_tg_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX trs_tg_tg_alpha_tg_idx ON public.trs_tg USING btree (tg_alpha_tg);
+
+
+--
+-- Name: trs_tg_tg_decimal_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX trs_tg_tg_decimal_idx ON public.trs_tg USING btree (tg_decimal);
+
+
+--
+-- Name: trs_tg_tg_decimal_tg_alpha_tg_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX trs_tg_tg_decimal_tg_alpha_tg_idx ON public.trs_tg USING btree (tg_decimal, tg_alpha_tg);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
