@@ -20,8 +20,11 @@ TEST_FULLFILE="../${MP3DIR_SRC}/20230927_001335Norfolk_OrfNorfolk_TRAFFIC__TO_61
 TEST_FULLFILE_COUNT=1
 else
 
-TEST_FULLFILE=$(find ../${MP3DIR_SRC} ! -newermt 00:00:00 -iname "*.${MP3_EXT}" -print)
-TEST_FULLFILE_COUNT=$(find ../${MP3DIR_SRC} ! -newermt 00:00:00 -iname "*.${MP3_EXT}" | wc -l)
+TEST_FULLFILE=$(find ../${MP3DIR_SRC} ! -newermt ${NOT_NEWER_THAN} -iname "*.${MP3_EXT}" -print)
+TEST_FULLFILE_COUNT=$( wc -l ${TEST_FULLFILE} | cut -d ' ' -f1)
+TEST_FULLFILE_COUNT=$(find ../${MP3DIR_SRC} ! -newermt ${NOT_NEWER_THAN} -iname "*.${MP3_EXT}" | wc -l)
+echo " File Count: ${TEST_FULLFILE_COUNT}"
+exit
 
 fi
 

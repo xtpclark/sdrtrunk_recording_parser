@@ -1,0 +1,1 @@
+select ffurl from vw_all where tag ='Public Works' and dt='2023-10-02' order by ts_tz;
