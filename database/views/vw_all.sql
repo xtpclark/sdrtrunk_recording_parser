@@ -1,5 +1,3 @@
-DROP VIEW vw_all;
-
 CREATE VIEW  vw_all AS ( SELECT extdat.ext_id,
     ((((((('file '''::text || fetchpreftext('archive_path'::text)) || '/'::text) || "left"(extdat.ext_filename, 8)) || '/'::text) || trs_tg.tg_decimal) || '/'::text) || extdat.ext_filename) || ''''::text AS ffurl,
     (((((fetchpreftext('archive_path'::text) || '/'::text) || "left"(extdat.ext_filename, 8)) || '/'::text) || trs_tg.tg_decimal) || '/'::text) || extdat.ext_filename AS fpath,
