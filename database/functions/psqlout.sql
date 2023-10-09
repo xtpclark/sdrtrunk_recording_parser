@@ -1,5 +1,5 @@
 -- Some say this is a bad idea... 
-CREATE FUNCTION public.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) RETURNS text
+CREATE OR REPLACE FUNCTION psf.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) RETURNS text
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -9,5 +9,4 @@ END;
 $$;
 
 
-ALTER FUNCTION public.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) OWNER TO postgres;
-
+ALTER FUNCTION psf.psqlout(ppghost text, ppgport integer, ppguser text, ppgdbname text, pquery text, poutfile text) OWNER TO psfadmin;
