@@ -1,1 +1,0 @@
-select ffurl from vw_all where  dt='2023-10-02' and lower(category) ~'fire' and hms between '10:00:00' AND '10:15:00' ORDER BY ts_tz;
