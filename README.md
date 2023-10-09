@@ -2,7 +2,7 @@
 Scripts to parse the sdrtrunk recording dir and move stuff around by date and talk group.
 
 
-Major update to how this works.
+Major update to how this works...
 
 ##  Prerequisites
 1. SDRTrunk: https://github.com/DSheirer/sdrtrunk
@@ -10,13 +10,13 @@ Major update to how this works.
 1. PostgreSQL Database, any reasonably recent version should be fine.
 
 ## Database Installation
-1. Create a postgresql database.
+
+1. Create a postgresql database. SEE INSTRUCTIONS IN database/README.TXT
 
 - `createdb -U postgres -h localhost -p 5432 psf`
 
-2. Load the database. 
+2. Load the database - see instructions in database/ README.TXT
 
-- `pg_restore -U postgres -h localhost -p 5432 -d psf database/schema/psf-compressed.backup`
 
 3. Connect to the database and set paths to locations in the database pref table.  You can use the setpref function.
 
@@ -24,27 +24,20 @@ Major update to how this works.
 - `SELECT setpref('archive_path','/storage/path/archive');` -- This is where you want to move recordings into DATE/Talkgroup directories
 - `SELECT setpref('merged_path','/some/other/path/merged');` -- The is where you want merged talkgroup recordings to end up.
 
-4. If using the `psf-compressed.backup`, you should see some test data:
 
-- SELECT * FROM vw_all;
-
-5. Import info from RR for the talkgroups.
+5. Import info from RR for the talkgroups and sites.
 
 - This data gets loaded into `trs_tg`.  Sample talkgroup data is in the `trs_tg` table for my locality.
+- Site data too. see readme.txt
 
 ## Setup PSF
-1. Edit settings.ini to match your database, "reasonable" defaults are set, save after editing.
-1. You can `source settings.ini && psql` as a quick test to see if the database lets you in.  If not, troubleshoot.
+1. Run setup.sh
+1. If not, troubleshoot.
 - `
-source settings.ini && psql
+source psf_settings.ini && psql
 
-psql (15.2 (Ubuntu 15.2-1.pgdg18.04+1))
-SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
-Type "help" for help.
-
-psf=# \q
-`	
 1. If you can connect, disconnect with `\q` and  try to run psf.sh...
+
 - `bash ./psf.sh`
 
 ## Automate the running

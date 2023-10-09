@@ -1,60 +1,22 @@
-CREATE TABLE public.trs_sites (
-    rfss text,
-    site_dec text,
-    site_hex text,
-    site_nac text,
-    description text,
-    county_name text,
-    lat text,
-    lon text,
-    range text,
-    f1 text,
-    f2 text,
-    f3 text,
-    f4 text,
-    f5 text,
-    f6 text,
-    f7 text,
-    f8 text,
-    f9 text,
-    f10 text,
-    f11 text,
-    f12 text,
-    f13 text,
-    f14 text,
-    f15 text,
-    f16 text,
-    f17 text,
-    f18 text,
-    f19 text,
-    f20 text,
-    f21 text,
-    f22 text,
-    f23 text,
-    f24 text,
-    f25 text,
-    f26 text,
-    f27 text,
-    f28 text,
-    f29 text,
-    f30 text,
-    f31 text,
-    f32 text,
-    f33 text,
-    f34 text,
-    f35 text,
-    f36 text,
-    f37 text,
-    f38 text,
-    f39 text,
-    f40 text,
-    f41 text,
-    f42 text,
-    f43 text,
-    f44 text,
-    f45 text
-);
+-- drop table trs_sites;
 
+SELECT psf.create_table('trs_sites','public');
 
-ALTER TABLE public.trs_sites OWNER TO postgres;
+SELECT 
+       	psf.add_column('trs_sites','site_id',		'serial'	,'not null'	,'public'),
+       	psf.add_column('trs_sites','rfss',		'text'	,''	,'public'),
+        psf.add_column('trs_sites','site_dec',		'text'		,''	,'public'),
+        psf.add_column('trs_sites','site_hex',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','site_nac',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','description',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','county_name',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','lat',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','lon',		'text'		,''		,'public'),
+        psf.add_column('trs_sites','range',		'text'		,''		,'public'),
+        psf.add_primary_key('trs_sites','site_id','public'),
+        TRUE;
 
+COMMENT ON TABLE public.trs_sites is $$ 
+RR TRS Sites
+Downloaded from https://www.radioreference.com/db/browse
+$$;

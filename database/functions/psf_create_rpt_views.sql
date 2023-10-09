@@ -20,18 +20,18 @@ BEGIN
                      quote_ident(vrpt.vcat);
                      
 	-- View by category today (tdy)       
-        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_tdy AS SELECT ffurl FROM public.vw_all WHERE vw_all.dt = (CURRENT_DATE) AND vw_all.category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_tdy AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::date = (CURRENT_DATE) AND vw_all.tg_category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
 
 	-- View by category yesterday (yda)        
-        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_yda AS SELECT ffurl FROM public.vw_all WHERE vw_all.dt = (CURRENT_DATE -1) AND vw_all.category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_yda AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::date = (CURRENT_DATE -1) AND vw_all.tg_category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
  
 	-- View by category 15 and 30 min ago.
-        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_15m AS SELECT ffurl FROM public.vw_all WHERE ts_tz >=  CURRENT_TIMESTAMP - INTERVAL ''15 Minutes'' AND vw_all.category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
-        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_30m AS SELECT ffurl FROM public.vw_all WHERE ts_tz >=  CURRENT_TIMESTAMP - INTERVAL ''30 Minutes'' AND vw_all.category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_15m AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::timestamptz >=  CURRENT_TIMESTAMP - INTERVAL ''15 Minutes'' AND vw_all.tg_category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.%I_30m AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::timestamptz >=  CURRENT_TIMESTAMP - INTERVAL ''30 Minutes'' AND vw_all.tg_category=''%s''', vrpt.vschema, vrpt.vname, vrpt.vcat );
         
         -- View ALL calls 15 and 30 min ago.
-        EXECUTE format('CREATE OR REPLACE VIEW %I.all_15m AS SELECT ffurl FROM public.vw_all WHERE ts_tz >=  CURRENT_TIMESTAMP - INTERVAL ''15 Minutes'' ', vrpt.vschema, vrpt.vname );
-        EXECUTE format('CREATE OR REPLACE VIEW %I.all_30m AS SELECT ffurl FROM public.vw_all WHERE ts_tz >=  CURRENT_TIMESTAMP - INTERVAL ''30 Minutes'' ', vrpt.vschema, vrpt.vname );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.all_15m AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::timestamptz >=  CURRENT_TIMESTAMP - INTERVAL ''15 Minutes'' ', vrpt.vschema, vrpt.vname );
+        EXECUTE format('CREATE OR REPLACE VIEW %I.all_30m AS SELECT ffurl FROM public.vw_all WHERE vw_all.p_time::timestamptz >=  CURRENT_TIMESTAMP - INTERVAL ''30 Minutes'' ', vrpt.vschema, vrpt.vname );
 
     END LOOP;
 
@@ -40,4 +40,5 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- This will likely change with the migration to psf_files, psf_meta, psf_fstat
+
+-- SELECT psf.create_rpt_views();

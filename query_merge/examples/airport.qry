@@ -1,2 +1,0 @@
-select ffurl from vw_all where dt = '2023-10-02' and talkgroup between 880 and 890;
-

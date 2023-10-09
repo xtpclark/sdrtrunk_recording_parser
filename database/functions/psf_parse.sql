@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION psf_parse() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION psf.psf_parse() RETURNS TRIGGER AS
 $BODY$
 DECLARE
 
@@ -29,7 +29,7 @@ $BODY$
 language plpgsql;
 
 
-CREATE OR REPLACE TRIGGER _psf_parse_trg
-     AFTER INSERT ON psf_files
-     FOR EACH ROW
-     EXECUTE PROCEDURE psf_parse();
+-- CREATE OR REPLACE TRIGGER _psf_parse_trg
+--     AFTER INSERT ON psf_files
+--     FOR EACH ROW
+--     EXECUTE PROCEDURE psf.psf_parse();
