@@ -42,7 +42,7 @@ EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_yda AS
   
     RAISE NOTICE 'Created view %.', vrpt.vname||'_yda';          
 
-EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_15min AS
+EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_15m AS
     SELECT 'file '''||fetchpreftext('archive_path')||'/'|| to_char(psf_meta.p_time, 'YYYYMMDD') || '/'||psf_meta.p_tg||'/'||psf_files.filename || '''' AS ffurl
      FROM psf_files 
 		JOIN psf_meta ON (id=p_id)
@@ -54,9 +54,9 @@ EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_15min AS
      GROUP BY filename, p_time, p_tg
      ORDER BY p_time$f$, vrpt.vschema, vrpt.vname, vrpt.tgid );
   
-    RAISE NOTICE 'Created view %.', vrpt.vname||'_15min';      
+    RAISE NOTICE 'Created view %.', vrpt.vname||'_15m';      
 
-EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_30min AS
+EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_30m AS
     SELECT 'file '''||fetchpreftext('archive_path')||'/'|| to_char(psf_meta.p_time, 'YYYYMMDD') || '/'||psf_meta.p_tg||'/'||psf_files.filename || '''' AS ffurl
      FROM psf_files 
 		JOIN psf_meta ON (id=p_id)
@@ -68,9 +68,9 @@ EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_30min AS
      GROUP BY filename, p_time, p_tg
      ORDER BY p_time$f$, vrpt.vschema, vrpt.vname, vrpt.tgid );
   
-    RAISE NOTICE 'Created view %.', vrpt.vname||'_30min';      
+    RAISE NOTICE 'Created view %.', vrpt.vname||'_30m';      
 
-EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_45min AS
+EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_45m AS
     SELECT 'file '''||fetchpreftext('archive_path')||'/'|| to_char(psf_meta.p_time, 'YYYYMMDD') || '/'||psf_meta.p_tg||'/'||psf_files.filename || '''' AS ffurl
      FROM psf_files 
 		JOIN psf_meta ON (id=p_id)
@@ -82,9 +82,9 @@ EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_45min AS
      GROUP BY filename, p_time, p_tg
      ORDER BY p_time$f$, vrpt.vschema, vrpt.vname, vrpt.tgid );
   
-    RAISE NOTICE 'Created view %.', vrpt.vname||'_45min';      
+    RAISE NOTICE 'Created view %.', vrpt.vname||'_45m';      
 
-EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_60min AS
+EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_60m AS
     SELECT 'file '''||fetchpreftext('archive_path')||'/'|| to_char(psf_meta.p_time, 'YYYYMMDD') || '/'||psf_meta.p_tg||'/'||psf_files.filename || '''' AS ffurl
      FROM psf_files 
 		JOIN psf_meta ON (id=p_id)
@@ -96,7 +96,7 @@ EXECUTE format($f$CREATE OR REPLACE VIEW %I.%I_60min AS
      GROUP BY filename, p_time, p_tg
      ORDER BY p_time$f$, vrpt.vschema, vrpt.vname, vrpt.tgid );
   
-    RAISE NOTICE 'Created view %.', vrpt.vname||'_60min';      
+    RAISE NOTICE 'Created view %.', vrpt.vname||'_60m';      
 
      
      
