@@ -117,7 +117,7 @@ WORKSEC=\$(date +"%s")
 # Find files that are:
 NOT_NEWER_THAN=\$(date --date  '-1 min' +"%H:%M:%S")
 
-PARSED_SQL_OUT=$(pwd)/temp_sql/${PARSED_DATA_TABLE}-data-\${WORKSEC}.sql
+PARSED_SQL_OUT=$(pwd)/temp_sql/\${PARSED_DATA_TABLE}-data-\${WORKSEC}.sql
 
 MP3_EXT=mp3
 

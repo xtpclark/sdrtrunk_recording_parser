@@ -46,6 +46,7 @@
 
 -- Scanner Parser Plinko Function/Trigger
 \i functions/psf_parse.sql
+\i psf_parse_lookup.sql 
 \i triggers/_psf_parse_trg.sql
 
 -- Create views by tg category in rpt. schema loops.  Several views per category.
